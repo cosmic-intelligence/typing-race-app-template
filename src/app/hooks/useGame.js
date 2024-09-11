@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 const initialGameState = {
   gameId: "", // Unique identifier for the game session
+  typingText: "",
   matchDuration: 0, // Duration of the match in minutes
   matchTimestamp: new Date(), // Timestamp of when the match started
   participants: [
@@ -17,20 +18,16 @@ const initialGameState = {
     }
   ],
   gameState: "waiting", // Current state of the game
-  playerStats: {
-    moves: [], // Array of moves made by the player
-    // Add more player-specific stats as needed
-  },
-  opponentStats: {
-    moves: [], // Array of moves made by the opponent
-    // Add more opponent-specific stats as needed
-  },
   winner: "", // Identifier for the winner of the match
-  moves: [], // Array of all moves made during the game
 };
 
 const useGame = ({ userId, gameId }) => {
   const [gameState, setGameState] = useState({...initialGameState});
+
+  // The methods below should be focused on updating the game state. Any hard calculations should be done and exported in the utils file. 
+  const calculateWinner = useCallback(() => {
+    
+  }, [gameState.participants, userId]);
 
   // Start countdown timer function
   const startCountdown = useCallback(() => {

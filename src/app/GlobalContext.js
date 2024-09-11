@@ -3,7 +3,14 @@ import React, { createContext, useState } from 'react';
 export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  const [globalData, setGlobalData] = useState({
+  const [user, setUser] = useState({
+    userId: "", // Unique identifier for the user
+    username: "", // Username of the user
+    email: "", // Email of the user
+    // Add more user-specific data as needed
+  });
+
+  const [game, setGame] = useState({
     gameId: "", // Unique identifier for the game session
     matchDuration: 0, // Duration of the match in minutes
     matchTimestamp: new Date(), // Timestamp of when the match started
@@ -20,20 +27,18 @@ export const GlobalProvider = ({ children }) => {
       }
     ],
     gameState: "waiting", // Current state of the game
-    playerStats: {
-      moves: [], // Array of moves made by the player
-      // Add more player-specific stats as needed
-    },
-    opponentStats: {
-      moves: [], // Array of moves made by the opponent
-      // Add more opponent-specific stats as needed
-    },
     winner: "", // Identifier for the winner of the match
-    moves: [], // Array of all moves made during the game
   });
 
+  const [leaderboard, setLeaderboard] = useState([]); // Initialize leaderboard state
+
+  // Method to update the game state
+  const updateGameState = (newGameState) => {
+    setGame(prevGame => ({ ...prevGame, ...newGameState }));
+  };
+
   return (
-    <GlobalContext.Provider value={{ globalData, setGlobalData }}>
+    <GlobalContext.Provider value={{ user, setUser, game, setGame, leaderboard, setLeaderboard, updateGameState }}>
       {children}
     </GlobalContext.Provider>
   );

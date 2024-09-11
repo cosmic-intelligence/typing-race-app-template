@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import io from 'socket.io-client';
+import { GlobalContext } from '../GlobalContext';
 
 const useSocket = (userId, gameId) => {
-  const [gameData, setGameData] = useState(null);
+  const { updateGameState } = useContext(GlobalContext);
 
   useEffect(() => {
     const socket = io('http://your-server-url', {
@@ -16,17 +17,17 @@ const useSocket = (userId, gameId) => {
     socket.on('globalData', (data) => {
       console.log('Received global data:', data);
       
-      // Assuming data is in the format of gamesSchema
-      setGameData(data);
+      // Update the global game state with the received data
+      updateGameState(data);
     });
 
     return () => {
       socket.disconnect();
       console.log('Disconnected from WebSocket');
     };
-  }, [userId, gameId]);
+  }, [userId, gameId, updateGameState]);
 
-  return gameData;
+  return null; // No need to return gameData as it's now in the global context
 };
 
 export default useSocket;

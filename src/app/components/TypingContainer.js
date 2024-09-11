@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { useTypingContext } from "@/context/TypingContext";
 import useGame from "../hooks/useGame";
+import { GlobalContext } from "../GlobalContext";
+
+
 
 const TypingContainer = () => {
   const {
@@ -11,7 +13,8 @@ const TypingContainer = () => {
     handleKeyDown,
   } = useTypingContext();
 
-  const { opponentProgress } = useGame();
+    const { game } = useContext(GlobalContext);
+    const { opponentProgress, playerProgress, gameState , countdown , winner , participants } = game;
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
